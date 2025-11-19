@@ -107,6 +107,11 @@
       {{ form.priority }}
     </p>
 
+    <p>
+      <label>Status:</label>
+      {{ form.is_completed }}
+    </p>
+
     <div class="form-actions">
       <button type="submit" class="btn-save">Salvar</button>
       <a href="{% url 'task_list' %}" class="btn-cancel">Cancelar</a>
