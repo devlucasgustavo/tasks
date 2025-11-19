@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% block title %}Excluir {{ object.title }}{% endblock %}
+{% block content %}
+
+<style>
+  .task-delete-container {
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 25px;
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.08);
+    border: 2px solid black;
+  }
+
+  .page-title {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 26px;
+    font-weight: bold;
+  }
+
+  .delete-message {
+    font-size: 17px;
+    text-align: center;
+    margin-bottom: 25px;
+    line-height: 1.5;
+  }
+
+  .delete-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+
+  .btn-confirm {
+    background: #f44336;
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+  }
+
+  .btn-confirm:hover {
+    background: #d7382d;
+  }
+
+  .btn-cancel {
+    background: #777;
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: 6px;
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+  }
+
+  .btn-cancel:hover {
+    background: #555;
+  }
+</style>
+
+<div class="task-delete-container">
+
+  <h2 class="page-title">Excluir Tarefa</h2>
+
+  <p class="delete-message">
+    Tem certeza que deseja excluir<br>
+    <strong>“{{ object.title }}”</strong>?
+  </p>
+
+  <form method="post" class="delete-actions">
+    {% csrf_token %}
+    <button type="submit" class="btn-confirm">Excluir</button>
+    <a href="{% url 'task_list' %}" class="btn-cancel">Cancelar</a>
+  </form>
+
+</div>
+
+{% endblock %}

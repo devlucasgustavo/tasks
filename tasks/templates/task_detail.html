@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% block title %}{{ object.title }}{% endblock %}
+{% block content %}
+
+<style>
+  .task-details-container {
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 25px;
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.08);
+    border: 2px solid black;
+  }
+
+  .page-title {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 26px;
+    font-weight: bold;
+  }
+
+  .task-info p {
+    margin-bottom: 12px;
+    font-size: 16px;
+    line-height: 1.4;
+  }
+
+  .task-info strong {
+    color: black;
+  }
+
+  .task-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
+  }
+
+  .btn-edit {
+    background: green;
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.2s;
+  }
+
+  .btn-edit:hover {
+    background: rgb(5, 70, 5);
+  }
+
+  .btn-delete {
+    background: #f44336;
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.2s;
+  }
+
+  .btn-delete:hover {
+    background: #d7382d;
+  }
+
+  .btn-back {
+    background: #777;
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.2s;
+  }
+
+  .btn-back:hover {
+    background: #555;
+  }
+</style>
+
+<div class="task-details-container">
+
+  <h2 class="page-title">{{ object.title }}</h2>
+
+  <div class="task-info">
+    <p><strong>Descrição:</strong> {{ object.description|default:"Sem descrição" }}</p>
+    <p><strong>Categoria:</strong> {{ object.category.name }}</p>
+    <p><strong>Prioridade:</strong> {{ object.priority }}</p>
+    <p><strong>Criada em:</strong> {{ object.created_at|date:"d/m/Y" }}</p>
+    <p><strong>Atualizada em:</strong> {{ object.updated_at|date:"d/m/Y" }}</p>
+  </div>
+
+  <div class="task-actions">
+    <a href="{% url 'task_update' object.pk %}" class="btn-edit">Editar</a>
+    <a href="{% url 'task_delete' object.pk %}" class="btn-delete">Excluir</a>
+    <a href="{% url 'task_list' %}" class="btn-back">Voltar</a>
+  </div>
+
+</div>
+
+{% endblock %}

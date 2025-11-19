@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+{% block title %}Lista de Tarefas{% endblock %}
+{% block content %}
+
+<style>
+.task-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  padding: 0;
+}
+
+.task-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #fafafa;
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 4px 4px 8px rgba(0,0,0,0.25);
+  list-style: none;
+  transition: all 0.3s ease;
+}
+
+.task-card:hover {
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+  transform: translate(-5px);
+}
+
+.edit-btn {
+  color: #2563eb;
+  text-decoration: none;
+  margin-right: 8px;
+}
+
+.delete-btn {
+  color: #dc2626;
+  text-decoration: none;
+}
+
+.detail-btn {
+  color: green;
+  text-decoration: none;
+}
+
+.task-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1e40af;
+}
+
+.task-info {
+  margin: 5px 0 8px;
+  color: #555;
+  font-size: 1rem;
+}
+
+.task-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.badge {
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: bold;
+  color: #fff;
+  display: inline-block;
+  margin-left: 6px;
+}
+
+.badge-aberta {
+  background: #6c757d; 
+}
+
+.badge-em-andamento {
+  background: #f1c40f; 
+  color: #000;
+}
+
+.badge-concluido {
+  background: #053d1c; 
+}
+
+.badge-cancelado {
+  background: #e63946; 
+}
+
+
+.status-select {
+  padding: 6px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: white;
+  font-size: 14px;
+  cursor: pointer;
+}
+</style>
+
+<h2>Lista de Tarefas</h2>
+
+<ul class="task-list">
+  {% for task in object_list %}
+    <li class="task-card">
+      
+      <h3 class="task-title">{{ task.title }}</h3>
+
+      <p class="task-info">
+        Categoria: {{ task.category.name }} <br>
+        Descrição: {{ task.description }} <br>
+        Prioridade: {{ task.priority }} <br>
+        Criada em: {{ task.created_at|date:"d/m/Y H:i" }} <br>
+
+        Status:
+        {% if task.is_completed == "aberta" %}
+          <span class="badge badge-aberta">ABERTA</span>
+        {% elif task.is_completed == "em andamento" %}
+          <span class="badge badge-em-andamento">EM ANDAMENTO</span>
+        {% elif task.is_completed == "concluido" %}
+          <span class="badge badge-concluido">CONCLUIDO</span>
+        {% elif task.is_completed == "cancelado" %}
+          <span class="badge badge-cancelado">CANCELADO</span>
+        {% endif %}
+        <br><br>
+      </p>
+    </li>
+  {% empty %}
+    <li>Nenhuma tarefa cadastrada.</li>
+  {% endfor %}
+</ul>
+
+{% endblock %}

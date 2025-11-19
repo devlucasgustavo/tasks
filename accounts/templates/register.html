@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+{% block content %}
+
+<style>
+  .login-container {
+    max-width: 420px;
+    margin: 50px auto;
+    padding: 28px;
+    background: #ffffff;
+    border-radius: 14px;
+    border: 2px solid black;
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.08);
+  }
+
+  .login-title {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 26px;
+    font-weight: bold;
+  }
+
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .login-form label {
+    font-weight: 600;
+    margin-bottom: 6px;
+    display: block;
+  }
+
+  .login-form input {
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 6px;
+    width: 100%;
+    font-size: 15px;
+  }
+
+  .login-btn {
+    background: #4A90E2;
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .login-btn:hover {
+    background: #3577c9;
+  }
+
+</style>
+
+<div class="login-container">
+  <h2 class="login-title">Cadastrar</h2>
+
+  <form method="post" class="login-form">
+    {% csrf_token %}
+    {{ user_form.as_p }}
+    <button type="submit" class="login-btn">Cadastrar</button>
+  </form>
+
+</div>
+
+{% endblock %}

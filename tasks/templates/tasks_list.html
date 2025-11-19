@@ -1,0 +1,181 @@
+{% extends 'base.html' %}
+{% block title %}Lista de Tarefas{% endblock %}
+{% block content %}
+
+<style>
+.task-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  padding: 0;
+}
+
+.task-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #fafafa;
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 4px 4px 8px rgba(0,0,0,0.25);
+  list-style: none;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+}
+
+.task-card:hover {
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+  transform: translate(-5px);
+}
+
+.edit-btn {
+  color: #2563eb;
+  text-decoration: none;
+  margin-right: 8px;
+}
+
+.delete-btn {
+  color: #dc2626;
+  text-decoration: none;
+}
+
+.detail-btn {
+  color: green;
+  text-decoration: none;
+}
+
+.task-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1e40af;
+}
+
+.task-info {
+  margin: 5px 0 8px;
+  color: #555;
+  font-size: 1rem;
+}
+
+.task-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.status-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-row form {
+  margin: 0;
+  padding: 0;
+}
+
+.status-select {
+  border: none;
+  padding: 4px 10px;
+  font-size: 14px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  color: black;
+}
+
+.status-select option[value="aberta"], .status-select[value="aberta"] {
+  background: #ffffff;
+}
+
+.status-select option[value="em andamento"], .status-select[value="em andamento"] {
+  background: #f1c40f;
+}
+
+.status-select option[value="concluido"], .status-select[value="concluido"] {
+  background: #053d1c; 
+}
+
+.status-select option[value="cancelado"], .status-select[value="cancelado"] {
+  background: #e63946;
+}
+
+
+.status-select[value="aberta"] {
+  background: #ffffff;
+}
+
+.status-select[value="em andamento"] {
+  background: #f1c40f;
+}
+
+.status-select[value="concluido"] {
+  background: #053d1c; 
+}
+
+.status-select[value="cancelado"] {
+  background: #e63946;
+}
+
+</style>
+
+<h2>Lista de Tarefas</h2>
+
+<ul class="task-list">
+  {% for task in object_list %}
+    <li class="task-card">
+      
+      <h3 class="task-title">{{ task.title }}</h3>
+
+      <p class="task-info">
+        Categoria: {{ task.category.name }} <br>
+        Descrição: {{ task.description }} <br>
+        Prioridade: {{ task.priority }} <br>
+        Criada em: {{ task.created_at|date:"d/m/Y H:i" }} <br>
+
+
+        <div class="status-row">
+          <span>Status:</span>
+
+          <form method="POST" action="{% url 'update_status' task.pk %}">
+            {% csrf_token %}
+            <select 
+                name="is_completed"
+                class="status-select"
+                value="{{ task.is_completed }}"
+                onchange="this.form.submit()">
+                
+                <option value="aberta" {% if task.is_completed == 'aberta' %}selected{% endif %}>ABERTA</option>
+                <option value="em andamento" {% if task.is_completed == 'em andamento' %}selected{% endif %}>EM ANDAMENTO</option>
+                <option value="concluido" {% if task.is_completed == 'concluido' %}selected{% endif %}>CONCLUIDO</option>
+                <option value="cancelado" {% if task.is_completed == 'cancelado' %}selected{% endif %}>CANCELADO</option>
+            </select>
+          </form>
+        </div>
+
+      </p>
+
+      <div class="task-actions">
+        <a href="{% url 'task_update' task.pk %}" class="edit-btn"><i class="fa-solid fa-pen"></i> Editar</a>
+        <a href="{% url 'task_delete' task.pk %}" class="delete-btn"><i class="fa-solid fa-trash"></i> Excluir</a>
+        <a href="{% url 'task_detail' task.pk %}" class="detail-btn"><i class="fa-solid fa-eye"></i> Detalhes</a>
+      </div>
+
+    </li>
+  {% empty %}
+    <li>Nenhuma tarefa cadastrada.</li>
+  {% endfor %}
+</ul>
+
+
+<script>
+  document.querySelectorAll('.status-select').forEach(select => {
+    function atualizarCor() {
+      select.setAttribute('value', select.value);
+    }
+    atualizarCor(); 
+    select.addEventListener('change', atualizarCor);
+  });
+</script>
+
+{% endblock %}

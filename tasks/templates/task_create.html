@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% block title %}Nova Tarefa{% endblock %}
+{% block content %}
+<style>
+  .task-create-container {
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 25px;
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.08);
+    border: 2px solid black;
+  }
+
+  .page-title {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 26px;
+    font-weight: bold;
+  }
+
+  .task-form p {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 18px;
+  }
+
+  .task-form label {
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  .task-form input,
+  .task-form select,
+  .task-form textarea {
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 6px;
+    font-size: 15px;
+    width: 100%;
+  }
+
+  .task-form textarea {
+    resize: vertical;
+  }
+
+  .form-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+
+  .btn-save {
+    background: #4CAF50;
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+  }
+
+  .btn-save:hover {
+    background: #45a049;
+  }
+
+  .btn-cancel {
+    background: #f44336;
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.2s;
+  }
+
+  .btn-cancel:hover {
+    background: #d7382d;
+  }
+</style>
+
+<div class="task-create-container">
+
+  <h2 class="page-title">Criar Nova Tarefa</h2>
+
+  <form method="post" class="task-form">
+    {% csrf_token %}
+
+    <p>
+      <label>Título:</label>
+      {{ form.title }}
+    </p>
+
+    <p>
+      <label>Categoria:</label>
+      {{ form.category }}
+    </p>
+
+    <p>
+      <label>Descrição:</label>
+      {{ form.description }}
+    </p>
+
+    <p>
+      <label>Prioridade:</label>
+      {{ form.priority }}
+    </p>
+
+    <div class="form-actions">
+      <button type="submit" class="btn-save">Salvar</button>
+      <a href="{% url 'task_list' %}" class="btn-cancel">Cancelar</a>
+    </div>
+  </form>
+
+</div>
+
+{% endblock %}
